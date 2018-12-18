@@ -23,12 +23,14 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItem>> 
     private boolean mHasResult = false;
 
     private String mMovieList;
-
-    public MovieAsyncTaskLoader(final Context context, String movieList) {
+    String purpose;
+    public MovieAsyncTaskLoader(final Context context, String movieList, String _purpose) {
         super(context);
 
         onContentChanged();
         this.mMovieList = movieList;
+
+        this.purpose = _purpose;
     }
 
     @Override
@@ -57,7 +59,7 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItem>> 
         }
     }
 
-    private static final String API_KEY = "80966df2b0dc4e052cb260b5780b5bda";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     // Format search kota url JAKARTA = 1642911 ,BANDUNG = 1650357, SEMARANG = 1627896
     // http://api.openweathermap.org/data/2.5/group?id=1642911,1650357,1627896&units=metric&appid=API_KEY
@@ -67,8 +69,14 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItem>> 
         SyncHttpClient client = new SyncHttpClient();
 
         final ArrayList<MovieItem> movieItemses = new ArrayList<>();
-        String url = "https://api.themoviedb.org/3/search/movie?api_key="+ API_KEY + "&language=en-US&query=" + mMovieList;
-
+        String url = null;
+        if(this.purpose == "search"){
+            url = "https://api.themoviedb.org/3/search/movie?api_key="+ API_KEY + "&language=en-US&query=" + mMovieList;
+        }else if (this.purpose == "upcoming"){
+            url = "https://api.themoviedb.org/3/movie/upcoming?api_key="+ API_KEY + "&language=en-US";
+        }else {
+            url = "https://api.themoviedb.org/3/movie/now_playing?api_key="+ API_KEY +"&language=en-US";
+        }
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onStart() {

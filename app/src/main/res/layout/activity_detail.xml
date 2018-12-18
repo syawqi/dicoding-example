@@ -17,7 +17,7 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
         <TextView
-            android:text="Captain America"
+            tools:text="Captain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_title_detail"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tv_date_detail"/>
         <TextView
-            android:text="Make a civil war with Iron Man"
+            tools:text="Make a civil war with Iron Man"
             android:layout_marginTop="5dp"
             android:id="@+id/tv_desc_detail"
             android:layout_width="wrap_content"

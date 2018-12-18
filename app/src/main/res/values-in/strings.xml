@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Katalog Film</string>
+    <string name="btn_cari">Cari</string>
+    <string name="tab_nowplay">Sedang Main</string>
+    <string name="tab_upcoming">Akan Datang</string>
+    <string name="search_place_holder">Nama Film</string>
+    <string name="menu_cari">Pencarian</string>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_change_settings"
+        android:title="Change Language Settings"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/action_search_setting"
+        android:title="@string/menu_cari"
+        app:showAsAction="never"></item>
+</menu>
