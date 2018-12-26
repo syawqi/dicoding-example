@@ -2,8 +2,10 @@ package xyz.msyawqi.syawqi.cataloguemovie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,8 @@ import java.sql.SQLException;
 
 import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 import xyz.msyawqi.syawqi.cataloguemovie.database.FavoriteHelper;
+
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.FavoriteColumns.CONTENT_URI;
 
 public class DetaillFavoriteActivity extends AppCompatActivity {
 
@@ -81,6 +85,7 @@ public class DetaillFavoriteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 favoriteHelper.delete(id);
+//                getContentResolver().delete(getIntent().getData(),null, null);
                 finish();
             }
         });

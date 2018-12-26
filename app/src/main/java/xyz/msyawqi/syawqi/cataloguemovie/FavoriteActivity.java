@@ -1,5 +1,6 @@
 package xyz.msyawqi.syawqi.cataloguemovie;
 
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +18,15 @@ import java.util.LinkedList;
 import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 import xyz.msyawqi.syawqi.cataloguemovie.database.FavoriteHelper;
 
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.FavoriteColumns.CONTENT_URI;
+
 public class FavoriteActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
 
-    private ArrayList<Favorite> list;
+    private Cursor list;
     private FavoriteCardAdapter adapter;
-    private FavoriteHelper favoriteHelper;
+//    private FavoriteHelper favoriteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +42,15 @@ public class FavoriteActivity extends AppCompatActivity {
 
         progressBar = (ProgressBar)findViewById(R.id.progressbar);
 
-        favoriteHelper = new FavoriteHelper(this);
-        try {
-            favoriteHelper.open();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        list = new ArrayList<>();
+//        favoriteHelper = new FavoriteHelper(this);
+//        try {
+//            favoriteHelper.open();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
 
         adapter = new FavoriteCardAdapter(this);
-        adapter.setData(list);
+        adapter.setListNotes(list);
         recyclerView.setAdapter(adapter);
 
 //        new LoadNoteAsync().execute();
@@ -63,33 +64,30 @@ public class FavoriteActivity extends AppCompatActivity {
     }
 
 
-    private class LoadNoteAsync extends AsyncTask<Void, Void, ArrayList<Favorite>> {
+    private class LoadNoteAsync extends AsyncTask<Void, Void, Cursor>{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
 
-            if (list.size() > 0){
-                list.clear();
-            }
         }
 
         @Override
-        protected ArrayList<Favorite> doInBackground(Void... voids) {
-            return favoriteHelper.query();
+        protected Cursor doInBackground(Void... voids) {
+            Log.e("TAG", "doInBackground: " + CONTENT_URI);
+            return getContentResolver().query(CONTENT_URI,null,null,null,null);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Favorite> favorite) {
-            super.onPostExecute(favorite);
+        protected void onPostExecute(Cursor notes) {
+            super.onPostExecute(notes);
             progressBar.setVisibility(View.GONE);
 
-            Log.d("TAG", "onPostExecute: " + favorite);
-            list.addAll(favorite);
-            adapter.setData(list);
+            list = notes;
+            adapter.setListNotes(list);
             adapter.notifyDataSetChanged();
 
-            if (list.size() == 0){
+            if (list.getCount() == 0){
                 showSnackbarMessage("Tidak ada data saat ini");
             }
         }

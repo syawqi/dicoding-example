@@ -1,5 +1,6 @@
 package xyz.msyawqi.syawqi.cataloguemovie;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,8 +23,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract;
 import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 import xyz.msyawqi.syawqi.cataloguemovie.database.FavoriteHelper;
+
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.FavoriteColumns.CONTENT_URI;
 
 public class DetailActivity extends AppCompatActivity {
     private Context context;
@@ -85,14 +89,22 @@ public class DetailActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Favorite newFavorite = new Favorite();
-                newFavorite.setMovie(id);
-                newFavorite.setTitle(name);
-                newFavorite.setDesc(desc);
-                newFavorite.setDate(date);
-                newFavorite.setImage(image);
+                ContentValues values = new ContentValues();
 
-                favoriteHelper.insert(newFavorite);
+//                Favorite newFavorite = new Favorite();
+
+                values.put(DatabaseContract.FavoriteColumns.MOVIEID, id);
+                values.put(DatabaseContract.FavoriteColumns.TITLE, name);
+                values.put(DatabaseContract.FavoriteColumns.DESCRIPTION, desc);
+                values.put(DatabaseContract.FavoriteColumns.DATE, date);
+                values.put(DatabaseContract.FavoriteColumns.IMAGE, image);
+//                newFavorite.setMovie(id);
+//                newFavorite.setTitle(name);
+//                newFavorite.setDesc(desc);
+//                newFavorite.setDate(date);
+//                newFavorite.setImage(image);
+
+                getContentResolver().insert(CONTENT_URI,values);
 
                 setResult(RESULT_ADD);
                 finish();

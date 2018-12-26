@@ -1,7 +1,12 @@
 package xyz.msyawqi.syawqi.cataloguemovie.database;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import static android.provider.BaseColumns._ID;
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.getColumnInt;
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.getColumnString;
 
 public class Favorite implements Parcelable {
 
@@ -65,6 +70,15 @@ public class Favorite implements Parcelable {
     }
 
     public Favorite() {
+    }
+
+    public Favorite(Cursor cursor){
+        this.id = getColumnInt(cursor, _ID);
+        this.movie = getColumnInt(cursor, DatabaseContract.FavoriteColumns.MOVIEID);
+        this.title = getColumnString(cursor, DatabaseContract.FavoriteColumns.TITLE);
+        this.dateRelease = getColumnString(cursor, DatabaseContract.FavoriteColumns.DATE);
+        this.description = getColumnString(cursor, DatabaseContract.FavoriteColumns.DESCRIPTION);
+        this.image = getColumnString(cursor, DatabaseContract.FavoriteColumns.IMAGE);
     }
 
     protected Favorite(Parcel in) {

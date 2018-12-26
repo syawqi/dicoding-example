@@ -1,8 +1,12 @@
 package xyz.msyawqi.syawqi.cataloguemovie;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,37 +16,24 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 
+import static xyz.msyawqi.syawqi.cataloguemovie.database.DatabaseContract.FavoriteColumns.CONTENT_URI;
+
 public class FavoriteCardAdapter extends RecyclerView.Adapter<FavoriteCardAdapter.CardViewViewHolder>{
+    private Cursor listNotes;
+    private Activity activity;
     private Context context;
-    private ArrayList<Favorite> mData;
 
-    RecyclerView mmRecyclerView;
-
-    public FavoriteCardAdapter(Context context) {
-        this.context = context;
+    public FavoriteCardAdapter(Activity activity) {
+        this.activity = activity;
     }
 
-    public void addItem(final Favorite item){
-        mData.add(item);
-        notifyDataSetChanged();
+    public void setListNotes(Cursor listNotes) {
+        this.listNotes = listNotes;
     }
-
-    public void setData(ArrayList<Favorite> mData){
-        this.mData=mData;
-    }
-
-    ArrayList<Favorite> getmData() {
-        return mData;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return 0;
-    }
-
 
     @Override
     public FavoriteCardAdapter.CardViewViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
@@ -53,41 +44,47 @@ public class FavoriteCardAdapter extends RecyclerView.Adapter<FavoriteCardAdapte
 
     }
 
-    @Override
-    public int getItemCount() {
-        if(mData == null) {
-            return 0;
-        }else{
-            return mData.size();
-        }
-    }
 
 
     @Override
     public void onBindViewHolder(FavoriteCardAdapter.CardViewViewHolder holder, final int position) {
-        holder.textViewTitle.setText(getmData().get(position).getTitle());
-        holder.textViewDesc.setText(getmData().get(position).getDesc());
-        holder.textViewDate.setText(getmData().get(position).getDate());
+        final Favorite favorite = getItem(position);
+        holder.textViewTitle.setText(favorite.getTitle());
+        holder.textViewDesc.setText(favorite.getDesc());
+        holder.textViewDate.setText(favorite.getDate());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent detail = new Intent(context , DetaillFavoriteActivity.class);
-                detail.putExtra("id" , getmData().get(position).getId());
-                detail.putExtra("name" , getmData().get(position).getTitle());
-                detail.putExtra("date" , getmData().get(position).getDate());
-                detail.putExtra("desc" , getmData().get(position).getDesc());
-                detail.putExtra("image" , getmData().get(position).getImage());
-                context.startActivity(detail);
+                Intent detail = new Intent(activity , DetaillFavoriteActivity.class);
+                detail.putExtra("id" , favorite.getId());
+                detail.putExtra("name" , favorite.getTitle());
+                detail.putExtra("date" , favorite.getDate());
+                detail.putExtra("desc" , favorite.getDesc());
+                detail.putExtra("image" , favorite.getImage());
+                activity.startActivity(detail);
             }
         });
 
-        Glide.with(context)
-                .load(getmData().get(position).getImage())
+
+        Glide.with(activity)
+                .load(favorite.getImage())
                 .override(55, 55)
                 .crossFade()
                 .into(holder.imageView);
 
+    }
+
+    @Override
+    public int getItemCount() {
+        if (listNotes == null) return 0;
+        return listNotes.getCount();
+    }
+    private Favorite getItem(int position){
+        if (!listNotes.moveToPosition(position)) {
+            throw new IllegalStateException("Position invalid");
+        }
+        return new Favorite(listNotes);
     }
 
     public class CardViewViewHolder extends RecyclerView.ViewHolder {
