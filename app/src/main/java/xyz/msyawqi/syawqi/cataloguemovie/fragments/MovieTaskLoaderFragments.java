@@ -1,8 +1,7 @@
-package xyz.msyawqi.syawqi.cataloguemovie;
+package xyz.msyawqi.syawqi.cataloguemovie.fragments;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.preference.PreferenceActivity;
+import android.support.v4.content.AsyncTaskLoader;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
@@ -12,19 +11,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
+import xyz.msyawqi.syawqi.cataloguemovie.BuildConfig;
+import xyz.msyawqi.syawqi.cataloguemovie.MovieItem;
+import xyz.msyawqi.syawqi.cataloguemovie.R;
 
-/**
- * Created by muhammadsyawqi on 20/03/18.
- */
-
-public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItem>> {
+public class MovieTaskLoaderFragments extends AsyncTaskLoader<ArrayList<MovieItem>> {
     private ArrayList<MovieItem> mData;
     private boolean mHasResult = false;
 
     private String mMovieList;
     String purpose;
-    public MovieAsyncTaskLoader(final Context context, String movieList, String _purpose) {
+
+    public MovieTaskLoaderFragments(final Context context, String movieList, String _purpose) {
         super(context);
 
         onContentChanged();
@@ -113,5 +111,4 @@ public class MovieAsyncTaskLoader extends AsyncTaskLoader<ArrayList<MovieItem>> 
     protected void onReleaseResources(ArrayList<MovieItem> data) {
         //nothing to do.
     }
-
 }

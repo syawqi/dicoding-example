@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="xyz.msyawqi.syawqi.cataloguemovie.DetailActivity">
+    tools:context=".DetaillFavoriteActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -43,11 +42,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
-                android:id="@+id/btn_favorite"
+                android:id="@+id/btn_remove_favorite"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:background="@color/colorAccent"
-                android:text="@string/favorite"/>
+                android:text="@string/remove_favorite"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -1,12 +1,9 @@
 package xyz.msyawqi.syawqi.cataloguemovie;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +12,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.w3c.dom.Text;
-
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 import xyz.msyawqi.syawqi.cataloguemovie.database.FavoriteHelper;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetaillFavoriteActivity extends AppCompatActivity {
+
     private Context context;
     private TextView tv_name;
     private TextView tv_date;
@@ -38,7 +31,9 @@ public class DetailActivity extends AppCompatActivity {
     private int position;
     private FavoriteHelper favoriteHelper;
 
-    public static int RESULT_ADD = 101;
+    public static String EXTRA_POSITION = "extra_position";
+
+    public static int RESULT_DELETE = 301;
 
     Integer id;
     String name;
@@ -49,15 +44,15 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detaill_favorite);
 
-        button = findViewById(R.id.btn_favorite);
+        button = findViewById(R.id.btn_remove_favorite);
 
-         id =  getIntent().getIntExtra("id", 0);
-         name = getIntent().getStringExtra("name");
-         date = getIntent().getStringExtra("date");
-         desc = getIntent().getStringExtra("desc");
-         image = getIntent().getStringExtra("image");
+        id =  getIntent().getIntExtra("id", 0);
+        name = getIntent().getStringExtra("name");
+        date = getIntent().getStringExtra("date");
+        desc = getIntent().getStringExtra("desc");
+        image = getIntent().getStringExtra("image");
 
 
         tv_name = findViewById(R.id.tv_title_detail);
@@ -85,16 +80,7 @@ public class DetailActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Favorite newFavorite = new Favorite();
-                newFavorite.setMovie(id);
-                newFavorite.setTitle(name);
-                newFavorite.setDesc(desc);
-                newFavorite.setDate(date);
-                newFavorite.setImage(image);
-
-                favoriteHelper.insert(newFavorite);
-
-                setResult(RESULT_ADD);
+                favoriteHelper.delete(id);
                 finish();
             }
         });

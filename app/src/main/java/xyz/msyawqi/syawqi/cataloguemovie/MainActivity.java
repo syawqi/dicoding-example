@@ -63,11 +63,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<MovieItem>> onCreateLoader(int i, Bundle bundle) {
         String movieList = "";
+        String type = "nowplay";
+        String title = editTitle.getText().toString();
+
+        Log.d("TAG", "onCreateLoader: " + editTitle.getText());
+        if (!title.isEmpty()){
+            type = "search";
+        }
+
         if (bundle != null){
             movieList = bundle.getString(EXTRAS_MOVIE);
         }
 //        Log.d("TAG", "onCreateLoader: " + movieList);
-        return new MovieAsyncTaskLoader(this,movieList, "search");
+        return new MovieAsyncTaskLoader(this,movieList, type);
 
     }
 

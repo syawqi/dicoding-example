@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_change_settings"
-        android:title="Change Language Settings"
+        android:title="@string/change_leaguage"
         app:showAsAction="never"></item>
     <item
         android:id="@+id/action_search_setting"
         android:title="@string/menu_cari"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/action_favorite_list"
+        android:title="@string/menu_favorite"
         app:showAsAction="never"></item>
 </menu>

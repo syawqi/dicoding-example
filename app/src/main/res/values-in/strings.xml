@@ -5,4 +5,10 @@
     <string name="tab_upcoming">Akan Datang</string>
     <string name="search_place_holder">Nama Film</string>
     <string name="menu_cari">Pencarian</string>
+    <string name="change_leaguage">Pengaturan Ganti Bahasa</string>
+    <string name="leaguage">id</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_favorite">Terfavorit</string>
+    <string name="favorite">Jadikan Favorite</string>
+    <string name="remove_favorite">Hapus Favorite</string>
 </resources>

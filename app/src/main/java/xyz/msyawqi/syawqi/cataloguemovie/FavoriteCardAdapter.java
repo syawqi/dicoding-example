@@ -2,43 +2,39 @@ package xyz.msyawqi.syawqi.cataloguemovie;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-/**
- * Created by muhammadsyawqi on 06/06/18.
- */
+import xyz.msyawqi.syawqi.cataloguemovie.database.Favorite;
 
-public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.CardViewViewHolder>{
+public class FavoriteCardAdapter extends RecyclerView.Adapter<FavoriteCardAdapter.CardViewViewHolder>{
     private Context context;
-    private ArrayList<MovieItem> mData;
+    private ArrayList<Favorite> mData;
+
     RecyclerView mmRecyclerView;
-    public MovieCardAdapter(Context context) {
+
+    public FavoriteCardAdapter(Context context) {
         this.context = context;
     }
 
-    public void addItem(final MovieItem item){
+    public void addItem(final Favorite item){
         mData.add(item);
         notifyDataSetChanged();
     }
 
-    public void setData(ArrayList<MovieItem> mData){
+    public void setData(ArrayList<Favorite> mData){
         this.mData=mData;
     }
 
-    ArrayList<MovieItem> getmData() {
+    ArrayList<Favorite> getmData() {
         return mData;
     }
 
@@ -49,11 +45,11 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Card
 
 
     @Override
-    public CardViewViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public FavoriteCardAdapter.CardViewViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         final View itemRow = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_card_item, parent, false);
 
 
-        return new CardViewViewHolder(itemRow);
+        return new FavoriteCardAdapter.CardViewViewHolder(itemRow);
 
     }
 
@@ -68,7 +64,7 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Card
 
 
     @Override
-    public void onBindViewHolder(CardViewViewHolder holder, final int position) {
+    public void onBindViewHolder(FavoriteCardAdapter.CardViewViewHolder holder, final int position) {
         holder.textViewTitle.setText(getmData().get(position).getTitle());
         holder.textViewDesc.setText(getmData().get(position).getDesc());
         holder.textViewDate.setText(getmData().get(position).getDate());
@@ -76,7 +72,7 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Card
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent detail = new Intent(context , DetailActivity.class);
+                Intent detail = new Intent(context , DetaillFavoriteActivity.class);
                 detail.putExtra("id" , getmData().get(position).getId());
                 detail.putExtra("name" , getmData().get(position).getTitle());
                 detail.putExtra("date" , getmData().get(position).getDate());
@@ -94,7 +90,7 @@ public class MovieCardAdapter extends RecyclerView.Adapter<MovieCardAdapter.Card
 
     }
 
-    public class CardViewViewHolder extends ViewHolder {
+    public class CardViewViewHolder extends RecyclerView.ViewHolder {
         TextView textViewTitle;
         TextView textViewDesc;
         TextView textViewDate;
